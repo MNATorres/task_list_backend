@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
 import { TaskDto } from "../dto/task.dto";
 import { logger } from "../utils/default.logger";
 
@@ -8,9 +7,10 @@ const _addTask = (taskDto: TaskDto) => {
   logger.info("taskRepository - addTask");
 
   const newTask = {
-    id: uuidv4(),
+    id: taskDto.id,
     title: taskDto.title,
     description: taskDto.description,
+    createAt: taskDto.createAt
   };
 
   tasks.push(newTask);

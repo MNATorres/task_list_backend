@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import indexRoutes from "./route/index.route";
 import errorHandler from "./middleware/errorhandler.mw";
+import { logger } from "./utils/default.logger";
 
 dotenv.config();
 
@@ -24,5 +25,5 @@ app.use("/api/", indexRoutes);
 app.use(errorHandler);
 
 app.listen(PORT, () => {
-  console.log(`El servidor está escuchando en el puerto ${PORT}`);
+  logger.info(`El servidor está escuchando en el puerto ${PORT}`);
 });

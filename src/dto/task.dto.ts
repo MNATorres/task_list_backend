@@ -1,8 +1,8 @@
 import { IsNumber, IsString } from "class-validator";
 
 export class TaskDto {
-  @IsNumber()
-  id!: number;
+  @IsString({ groups: ["newTask"] })
+  id!: string;
 
   @IsString({ groups: ["newTask"] })
   title!: string;

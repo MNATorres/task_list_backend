@@ -3,7 +3,7 @@ import { createTask, getTasks } from "../controller/task.controller";
 
 const router = Router();
 
-router.post("/newTask", createTask);
-router.get("/allTask", getTasks);
+router.post("/createtask", createTask);
+router.get("/alltasks", getTasks);
 
 export default router;
