@@ -1,7 +1,8 @@
-import express, { Request, Response } from 'express';
-import dotenv from 'dotenv';
-import cors from 'cors';
-import indexRoutes from './route/index.route'
+import express, { Request, Response } from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import indexRoutes from "./route/index.route";
+import errorHandler from "./middleware/errorhandler.mw";
 
 dotenv.config();
 
@@ -14,12 +15,14 @@ app.use(cors());
 app.use(express.json());
 
 // Ruta de prueba
-app.get('/', (req: Request, res: Response) => {
-  res.send('¡Hola, mundo desde TypeScript!');
+app.get("/", (req: Request, res: Response) => {
+  res.send("¡Hola, mundo desde TypeScript!");
 });
 
-app.use('/api/', indexRoutes)
+app.use("/api/", indexRoutes);
+
+app.use(errorHandler);
 
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`El servidor está escuchando en el puerto ${PORT}`);
 });

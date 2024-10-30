@@ -22,5 +22,5 @@ const _getAllTasks = async () => {
 
 export default {
   newTask: _newTask,
-  getAllTasks: _getAllTasks
+  getAllTasks: _getAllTasks,
 };
