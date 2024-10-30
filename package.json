@@ -14,12 +14,19 @@
   "dependencies": {
     "@types/express": "^5.0.0",
     "@types/node": "^22.8.1",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
+    "express-async-handler": "^1.2.0",
+    "log4js": "^6.9.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "uuid": "^11.0.2"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "ts-node-dev": "^2.0.0"
   }
 }
