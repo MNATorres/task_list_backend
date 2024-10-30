@@ -1,0 +1,58 @@
+# Dependencias de Node
+node_modules/
+package-lock.json
+
+# Archivos de logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Entorno de desarrollo
+.env
+.env.local
+.env.*.local
+
+# Archivos de bases de datos locales
+*.sqlite3
+*.db
+
+# Caché y temporales de producción
+.cache/
+dist/
+build/
+tmp/
+out/
+
+# Archivos de configuración del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de configuraciones de IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Cobertura de pruebas
+coverage/
+.nyc_output/
+
+# Archivos específicos de despliegues
+.surge
+.now
+vercel.json
+
+# Configuración de Docker
+docker-compose.yml
+Dockerfile
+
+# Archivos de configuración de PM2
+pm2-logs/
+pm2-config/
+*.pid
+
+# Otros archivos sensibles o específicos
+secret/
