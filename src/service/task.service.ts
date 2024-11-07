@@ -15,12 +15,18 @@ const _getAllTasks = async () => {
   logger.info("taskService - _getAllTasks");
 
   const tasks = taskRepository.getAllTasks();
-  logger.info("taskService - tasks", tasks);
 
   return tasks;
+};
+
+const _deleteTask = async (id: string) => {
+  logger.info("taskService - _deleteTask");
+
+  await taskRepository.deleteTask(id);
 };
 
 export default {
   newTask: _newTask,
   getAllTasks: _getAllTasks,
+  deleteTask: _deleteTask,
 };

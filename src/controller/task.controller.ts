@@ -5,6 +5,7 @@ import { TaskDto } from "../dto/task.dto";
 import asyncHandler from "express-async-handler";
 import taskService from "./../service/task.service";
 import { logger } from "../utils/default.logger";
+import httpResponse from "../shared/response/http.response";
 
 export const createTask = asyncHandler(async (req: Request, res: Response) => {
   logger.info("taskController - createTask");
@@ -28,7 +29,19 @@ export const getTasks = asyncHandler(async (req: Request, res: Response) => {
   logger.info("taskController - getTasks");
 
   const tasks = await taskService.getAllTasks();
-  logger.info("taskController - tasks", tasks);
 
   res.status(200).json(tasks);
+});
+
+export const deleteTask = asyncHandler(async (req: Request, res: Response) => {
+  logger.info("taskController - deleteTask");
+
+  const id = req.params.id;
+  if (id.trim() === "")
+    throw httpResponse.BadRequest([
+      { property: "id", constraints: { isInt: "Is not id" } },
+    ]);
+  await taskService.deleteTask(id);
+
+  httpResponse.OK(res, "Elemento eliminado");
 });

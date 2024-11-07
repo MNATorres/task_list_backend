@@ -1,9 +1,11 @@
 import { configure, getLogger } from "log4js";
 import path from "path";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 // Define la carpeta de logs
-const LOG_DIR = path.join(__dirname, "./../../../../list_task/logs"); // Cambia esta ruta según tu estructura de carpetas
-const LOG_FILE = "application.log"; // Nombre del archivo de log
+const LOG_DIR = path.join(__dirname, process.env.LOG_DIR || "./../");
 
 // appenders
 configure({
@@ -11,7 +13,7 @@ configure({
     console: { type: "stdout", layout: { type: "colored" } },
     dateFile: {
       type: "dateFile",
-      filename: path.join(LOG_DIR, LOG_FILE), // Usar la ruta definida
+      filename: path.join(LOG_DIR, process.env.LOG_FILE || "orapplication.log"), // Usar la ruta definida
       layout: { type: "basic" },
       compress: true,
       numBackups: 7,
