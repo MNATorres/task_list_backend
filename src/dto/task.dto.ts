@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from "class-validator";
+import { IsBoolean, IsNumber, IsString } from "class-validator";
 
 export class TaskDto {
   @IsString({ groups: ["newTask"] })
@@ -12,4 +12,7 @@ export class TaskDto {
 
   @IsString({ groups: ["newTask"] })
   createAt!: string;
+
+  @IsBoolean({ groups: ["newTask"] })
+  complete!: boolean;
 }

@@ -1,35 +1,9 @@
 import { TaskDto } from "../dto/task.dto";
 import { logger } from "../utils/default.logger";
 import httpResponse from "../shared/response/http.response";
+import { dbConnection } from "../database/database";
 
-let tasks: TaskDto[] = [
-  {
-    id: "1",
-    title: "Task 1",
-    description: "Description for Task 1",
-    createAt: "2024-11-07T10:00:00Z",
-  },
-  {
-    id: "2",
-    title: "Task 2",
-    description: "Description for Task 2",
-    createAt: "2024-11-07T11:00:00Z",
-  },
-  {
-    id: "3",
-    title: "Task 3",
-    description: "Description for Task 3",
-    createAt: "2024-11-07T12:00:00Z",
-  },
-  {
-    id: "4",
-    title: "Task 4",
-    description: "Description for Task 4",
-    createAt: "2024-11-07T13:00:00Z",
-  },
-];
-
-const _addTask = (taskDto: TaskDto) => {
+const _addTask = async (taskDto: TaskDto) => {
   logger.info("taskRepository - addTask");
 
   const newTask = {
@@ -37,31 +11,68 @@ const _addTask = (taskDto: TaskDto) => {
     title: taskDto.title,
     description: taskDto.description,
     createAt: taskDto.createAt,
+    complete: taskDto.complete,
   };
 
-  tasks.push(newTask);
-  logger.info("taskRepository - newTask", newTask);
+  // Consulta SQL para insertar la nueva tarea
+  const query = `
+    INSERT INTO tasks (id, title, description, createAt, complete)
+    VALUES (?, ?, ?, ?, ?)
+  `;
 
+  // Ejecutar la consulta sin manejar explícitamente el error
+  await dbConnection.execute(query, [
+    newTask.id,
+    newTask.title,
+    newTask.description,
+    newTask.createAt,
+    newTask.complete,
+  ]);
+
+  logger.info("taskRepository - newTask created", newTask);
+  logger.info("taskRepository - newTask created", newTask);
+
+  // Devolver el objeto de la nueva tarea
   return newTask;
 };
 
-const _getAllTasks = () => {
-  logger.info("taskRepository - _getAllTasks", tasks);
-  return tasks;
+const _getAllTasks = async () => {
+  logger.info("taskRepository - _getAllTasks");
+  try {
+    const [rows] = await dbConnection.execute("SELECT * FROM tasks");
+
+    logger.info("_getAllTasks", rows)
+    return rows;
+  } catch (error) {
+    console.error("Error al obtener las tareas:", error);
+    throw error;
+  }
 };
 
-const _deleteTask = (id: string) => {
-  logger.info("taskRepository - _deleteTask", tasks);
+const _findTask = async (id: string) => {
+  logger.info("taskRepository - _findTask");
 
-  const taskExists = tasks.some((task) => task.id === id);
+  const [row] = await dbConnection.execute(
+    `SELECT * FROM tasks WHERE id = ?`, [id],
+  );
+  logger.info("findTask", (row as any)[0]);
 
-  if (!taskExists) {
+  return (row as any)[0];
+};
+
+const _deleteTask = async (id: string) => {
+  logger.info("taskRepository - _deleteTask");
+
+  const findTask = await _findTask(id)
+  console.log("=====>findTask", findTask);
+  
+  if (!findTask) {
     throw httpResponse.NotFound(`Task with id ${id} not found`);
   }
+  // Si la tarea existe, la eliminamos
+  await dbConnection.execute(`DELETE FROM tasks WHERE id = ?`, [id]);
 
-  tasks = tasks.filter((task) => {
-    return task.id !== id;
-  });
+  logger.info(`Task with id ${id} has been deleted`);
 };
 
 export default {

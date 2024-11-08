@@ -14,7 +14,7 @@ const _newTask = async (taskDto: TaskDto) => {
 const _getAllTasks = async () => {
   logger.info("taskService - _getAllTasks");
 
-  const tasks = taskRepository.getAllTasks();
+  const tasks = await taskRepository.getAllTasks();
 
   return tasks;
 };

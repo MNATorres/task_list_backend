@@ -1,11 +1,9 @@
 import { configure, getLogger } from "log4js";
 import path from "path";
-import dotenv from "dotenv";
-
-dotenv.config();
+import config from "./../config/config.keys";
 
 // Define la carpeta de logs
-const LOG_DIR = path.join(__dirname, process.env.LOG_DIR || "./../");
+const LOG_DIR = path.join(__dirname, config.LOG_DIR || "./../");
 
 // appenders
 configure({
@@ -13,7 +11,7 @@ configure({
     console: { type: "stdout", layout: { type: "colored" } },
     dateFile: {
       type: "dateFile",
-      filename: path.join(LOG_DIR, process.env.LOG_FILE || "orapplication.log"), // Usar la ruta definida
+      filename: path.join(LOG_DIR, config.LOG_FILE || "orapplication.log"), // Usar la ruta definida
       layout: { type: "basic" },
       compress: true,
       numBackups: 7,
